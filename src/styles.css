@@ -1,0 +1,412 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: black;
+  color: white;
+}
+
+/* Page pleine et calques */
+.game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- FOND --- */
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;           /* évite tout scroll */
+}
+.background img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; background:#000;        
+  object-position: center;    /* centre l’image (lune au milieu) */
+}
+
+
+
+.fade-in {
+  animation: fadeIn 0.3s forwards;
+}
+.fade-out {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* --- PERSONNAGES --- */
+.characters {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 18vh;               /* ↑ on les remonte au-dessus de la boîte */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.char { object-fit: contain; filter: drop-shadow(0 12px 30px rgba(0,0,0,.5)); }
+.char.tomatola { max-height: 52vh; }  /* un peu plus petit qu'avant */
+.char.wolf     { max-height: 38vh; }
+.char.tomatolaandwolf { max-height: 58vh; }
+.char.traveler { max-height: 52vh; margin-left: -90px; }
+.char.familyatthetable { max-height: 58vh; }
+
+/* --- TOMATE MAGIQUE --- */
+.tomato {
+  position: absolute;
+  left: 25%;                  /* plus à droite */
+  bottom: 12vh;               /* plus bas, alignée avec les personnages */
+  transform: translateX(-50%);
+  height: 24vh;               /* légèrement réduite pour ne pas dominer */
+  object-fit: contain;
+  filter: drop-shadow(0 12px 40px rgba(255,190,60,.55));
+  animation: tomatoPulse 2.2s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes tomatoPulse {
+  0%   { transform: translateX(-50%) scale(.98); opacity: .92; }
+  50%  { transform: translateX(-50%) scale(1.03); opacity: 1; }
+  100% { transform: translateX(-50%) scale(.98); opacity: .92; }
+}
+
+
+
+
+/* HUD & DIALOGUE (si tu ne les as pas déjà) */
+.hud { position: absolute; top: 12px; left: 12px; z-index: 3; background: rgba(0,0,0,.55); padding: 8px 12px; border-radius: 10px; }
+
+
+
+/* === Transitions d'entrée/sortie de scène === */
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: sceneFadeIn .35s ease forwards;
+}
+@keyframes sceneFadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+/* Parallax léger sur le fond (bouge un peu à la souris) */
+.background.parallax img {
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+/* Hover/disabled des choix (meilleure affordance) */
+.choices button {
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+.choices button:hover:not(:disabled) {
+  background: #2a2b36;
+  transform: translateY(-1px);
+}
+.choices button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Typewriter (curseur) */
+.dialogue-text.typewriter::after {
+  content: "▌";
+  margin-left: 4px;
+  opacity: .7;
+  animation: caretBlink 1s steps(1) infinite;
+}
+@keyframes caretBlink {
+  0%, 49% { opacity: .7 }
+  50%, 100% { opacity: 0 }
+}
+
+/* HUD: slider volume */
+.hud .vol {
+  appearance: none;
+  height: 4px; width: 120px;
+  background: rgba(255,255,255,.25);
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.hud .vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #e84b3a;
+  cursor: pointer;
+}
+
+
+/* Boîte de dialogue toujours centrée en bas */
+.dialogue {
+  position: fixed;                           /* ne bouge pas même si la page scrolle */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: max(env(safe-area-inset-bottom), 16px);
+  width: min(1000px, calc(100vw - 32px));    /* marge latérale */
+  z-index: 5;                                 /* au-dessus des sprites */
+}
+
+/* Contenu de la boîte */
+.dialogue-box {
+  background: rgba(18,18,22,.86);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 16px 18px;
+  backdrop-filter: blur(4px);
+}
+
+/* Liste des choix */
+.choices {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+.choices button {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #1b1c25;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.18);
+}
+
+/* Assure la scène en plein écran (si jamais le parent ne prend pas 100vh) */
+html, body, #root { height: 100%; }
+body { margin: 0; }
+.game { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+/* Remonte un peu les personnages pour ne pas les couper */
+.characters {
+  bottom: 18vh;            /* ajuste si besoin (16–22vh) */
+}
+
+/* Fond non déformé et centré */
+.background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* ou 'contain' si tu préfères zéro rognage */
+  object-position: center;
+}
+
+
+
+/* ====== PRÉSETS CHAPITRE 1 – placements comme avant ====== */
+/* base commune (reprend tes valeurs d’origine) */
+.characters { position: absolute; left:0; right:0; bottom: 18vh; display:flex; justify-content:center; align-items:flex-end; gap:48px; z-index:2; pointer-events:none; }
+.char { object-fit: contain; filter: drop-shadow(0 12px 30px rgba(0,0,0,.5)); }
+.char.tomatola { max-height: 52vh; }
+.char.wolf { max-height: 38vh; }
+.char.tomatolaandwolf { max-height: 58vh; }
+.char.familyatthetable { max-height: 58vh; }
+.char.tomatolaandfather { max-height: 58vh; }
+.char.tomatolaandfathertomato { max-height: 58vh; }
+.char.tomatolafindstomato { max-height: 58vh; }
+.char.tomatolaback { max-height: 58vh; }
+.char.tomatolameetswolf { max-height: 58vh; }
+.tomato { position:absolute; left:25%; bottom:12vh; transform:translateX(-50%); height:24vh; object-fit:contain; filter: drop-shadow(0 12px 40px rgba(255,190,60,.55)); animation: tomatoPulse 2.2s ease-in-out infinite; z-index:2; }
+
+/* start, observe_field : Tomatola seule + tomate magique alignée main droite */
+
+
+.node-start .characters,
+.node-start .char.familyatthetable { max-height:52vh; margin-left: 0; }
+.node-start_tomato .tomato { display:none; }
+
+
+
+.node-c1_enter_forest .char.wolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 46%;
+  bottom: 20vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 20vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
+
+.node-c1_enter_forest .char.tomatolaback {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 55%;
+  bottom: 1vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c1_build_trap .char.buildtrap { max-height:52vh; }
+
+
+
+
+
+
+
+.node-field .characters { justify-content:center; }
+.node-observe_field .characters { justify-content: center; }
+.node-field .char.tomatola,
+.node-observe_field .char.tomatola { max-height:52vh; margin-left: 0; }
+.node-field .tomato,
+.node-observe_field .tomato { left:25%; bottom:12vh; height:24vh; }
+
+/* take_tomato : Tomatola seule, pas de tomate (déjà dans le sac) */
+.node-take_tomato .characters { justify-content:center; }
+.node-take_tomato .char.tomatola { max-height:52vh; }
+.node-take_tomato .tomato { display:none; }
+
+/* meet_wolf : duo côte à côte (Tomatola + louve), pas de tomate visible */
+.node-meet_wolf .characters { justify-content:center; gap:48px; }
+.node-meet_wolf .char.tomatola { max-height:46vh; }
+.node-meet_wolf .char.wolf { max-height:38vh; }
+.node-meet_wolf .tomato { display:none; }
+
+/* house_approach : sprite combiné tomatolaandwolf centré */
+.node-house_approach .characters { justify-content:center; }
+.node-house_approach .char.tomatolaandwolf { max-height:58vh; }
+.node-house_approach .tomato { display:none; }
+
+/* house_inside : pareil, intérieur maison */
+.node-house_inside .characters { justify-content:center; }
+.node-house_inside .char.tomatolaandwolf { max-height:58vh; }
+.node-house_inside .tomato { display:none; }
+
+/* back_to_forest : duo séparé (retour forêt), pas de tomate */
+.node-back_to_forest .characters { justify-content:center; }
+.node-back_to_forest .char.tomatola { max-height:46vh; }
+.node-back_to_forest .char.wolf { max-height:38vh; }
+.node-back_to_forest .tomato { display:none; }
+
+/* end_demo : sprite combiné centré, pas de tomate */
+.node-end_demo .characters { justify-content:center; }
+.node-end_demo .char.tomatolaandwolf { max-height:58vh; }
+.node-end_demo .tomato { display:none; }
+
+/* (Option) fond : évite les déformations et colle au rendu original CH1 */
+.background img { object-fit: cover; object-position: center; }
+
+
+
+/* ===== Bulles BD ancrées ===== */
+.bubble-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30; /* au-dessus des sprites */
+}
+
+.bubble-anchored { pointer-events: auto; }
+.bubble-inner {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  font-size: clamp(14px, 1.8vw, 18px);
+  line-height: 1.4;
+  position: relative;
+}
+.bubble-speaker { font-weight: 700; margin-bottom: 4px; }
+.bubble-text { white-space: pre-wrap; }
+
+.bubble-meta {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; font-size: .9em; opacity: .85;
+}
+.bubble-btn {
+  border: 1px solid rgba(0,0,0,.12);
+  background: #111; color: #fff;
+  border-radius: 8px; padding: 4px 8px;
+  cursor: pointer;
+}
+
+/* Queue */
+.bubble-tail {
+  position: absolute;
+  width: 14px; height: 14px; background: #fff;
+  transform: rotate(45deg);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+.tail-top .bubble-tail    { bottom: calc(100% - 7px); left: 50%; transform: translateX(-50%) rotate(45deg); }
+.tail-bottom .bubble-tail { top: calc(100% - 7px);    left: 50%; transform: translateX(-50%) rotate(45deg); }
+.tail-left .bubble-tail   { right: calc(100% - 7px);  top: 50%;  transform: translateY(-50%) rotate(45deg); }
+.tail-right .bubble-tail  { left: calc(100% - 7px);   top: 50%;  transform: translateY(-50%) rotate(45deg); }
+
+/* Debug (optionnel): afficher un point rouge sur l'ancre
+.game.debug-anchors .bubble-anchored::before {
+  content: "";
+  position: absolute;
+  width: 6px; height: 6px; border-radius: 50%; background: red;
+  transform: translate(-50%, -50%);
+  left: 0; top: 0;
+}
+*/
+
+/* Forcer une couleur de texte lisible dans la bulle */
+.bubble-inner { color: #111; }           /* texte principal noir */
+.bubble-speaker { color: #111; }         /* nom du locuteur */
+.bubble-text { color: inherit; }         /* par sécurité */
+
+
+
+.hud {
+  position: absolute;
+  top: 12px; right: 12px;
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  padding: 8px 12px; background: rgba(0,0,0,.5); color: #fff; border-radius: 10px; font-weight: 600;
+}
+
+.wallet-panel {
+  position: absolute;
+  top: 64px; /* sous la HUD */
+  right: 12px;
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  padding: 8px 12px; background: rgba(0,0,0,.42); color: #fff; border-radius: 10px; 
+  backdrop-filter: blur(4px);
+}
+
+
+
+.reward-toast {
+  position: absolute;
+  top: 100px; /* sous la HUD et wallet */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 0, 0.85);
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 20px;
+  animation: fadeMove 2.5s ease forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes fadeMove {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; transform: translate(-50%, -20px); }
+  100% { opacity: 0; transform: translate(-50%, -40px); }
+}
+

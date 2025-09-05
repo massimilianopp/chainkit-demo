@@ -1,0 +1,296 @@
+{
+  "__chapters": [
+    { "id": "c1", "title": "Chapitre 1", "entry": "c1_start", "ends": ["c1_end_demo"] },
+    { "id": "c2", "title": "Chapitre 2", "entry": "c2_start", "ends": ["c2_end_city", "c2_end_mountain"] },
+    { "id": "c3", "title": "Chapitre 3", "entry": "c3_start" }
+  ],
+
+
+
+
+  "c1_start": {
+   "background": "diningroom",
+   "characters": ["familyatthetable"],
+   "tomato": false,
+   
+   "dialogues": [
+     { "speaker": "Père",     "char": "familyatthetable", "actor": "Pere",     "text": "La guerre approche, j’ai peur qu’on ne puisse pas soigner tous les blessés." },
+     { "speaker": "Tomatola", "char": "familyatthetable", "actor": "Tomatola", "text": "Oui, il n’y a pas assez de soignants." },
+     { "speaker": "Père",     "char": "familyatthetable", "actor": "Pere",     "text": "Et on manque de temps pour en former de nouveaux." },
+     { "speaker": "Tomatola", "char": "familyatthetable", "actor": "Tomatola", "text": "Il va falloir trouver une solution et vite." },
+     { "speaker": "Père",     "char": "familyatthetable", "actor": "Pere",     "text": "L’ennemi va assiéger la ville. Bientôt il sera devant nos portes et on ne pourra plus quitter la ville." },
+     { "speaker": "Tomatola", "char": "familyatthetable", "actor": "Tomatola", "text": "Je vais sortir prendre l’air. C’est peut-être ma dernière chance de sortir avant que l’ennemi arrive." },
+     { "speaker": "Mère",     "char": "familyatthetable", "actor": "Mere",     "text": "Sois prudente." }
+    ],
+
+   "text": "Tomatola dîne avec ses parents et son petit frère.",
+
+   
+   "choices": [
+     { "text": "Sortir se promener", "next": "c1_field" },
+     { "text": "Aider son père à fabriquer des trousses de soin", "next": "c1_help_father" }
+    ]
+  },
+
+
+  "c1_help_father": {
+    "background": "diningroom",
+    "characters": ["tomatolaandfather"],
+    "tomato": false,
+    "reward": { "credits": 10 },
+    "text": "Tomatola aide son père à préparer des trousses de secours pour soigner les blessés pendant la guerre.",
+    "choices": [
+      { "text": "Partir se promener", "next": "c1_field" }
+    ]
+  },
+
+
+
+
+  "c1_field": {
+    "background": "field",
+    "characters": ["tomatolaback"],
+    "tomato": false,
+    "text": "Tomatola se promène dans un champs. Un panache de fumée au loin : les paysans brûlent les récoltes pour éviter que l'ennemi ne s'en saisisse",
+    "choices": [
+      { "text": "Avancer dans le champs", "next": "c1_find_tomato" }
+    ]
+  },
+
+  
+
+  "c1_find_tomato": {
+    "background": "field",
+    "characters": ["tomatolafindstomato"],
+    "tomato": false,
+    "reward": { "credits": 100 },
+    "text": "Tomatola trouve une tomate spéciale qui palpite comme un coeur",
+    "choices": [
+      { "text": "Prendre la tomate et partir", "next": "c1_show_tomato" }
+    ]
+  },
+
+
+  
+
+
+  "c1_show_tomato": {
+    "background": "diningroom",
+    "characters": ["tomatolaandfathertomato"],
+    "tomato": false,
+
+   "dialogues": [
+     { "speaker": "Tomatola", "char": "tomatolaandfathertomato", "actor": "Tomatola", "text": "Tu sais ce que c'est ?" },     
+     { "speaker": "Père",     "char": "tomatolaandfathertomato", "actor": "Pere",     "text": "Je n'en avais jamais vu avant mais j'en ai entendu parler. C'est une variété spéciale de tomates, elles ont de tes puissantes vertus médicinales." },
+     { "speaker": "Tomatola", "char": "tomatolaandfathertomato", "actor": "Tomatola", "text": "Tu sais comment l'utiliser ?" },
+     { "speaker": "Père",     "char": "tomatolaandfathertomato", "actor": "Pere",     "text": "Non mais mon professeur de médecine était expert en pouvoirs magiques des plantes. Il pourrait t'apprendre à maîtriser les pouvoirs de ce fruit magique." },
+     { "speaker": "Tomatola", "char": "tomatolaandfathertomato", "actor": "Tomatola", "text": "Tu sais où je peux le trouver ?" },
+     { "speaker": "Père",     "char": "tomatolaandfathertomato", "actor": "Pere",     "text": "Il enseignait dans le temple en haut de la montagne, aux côtés des plus grands sages du royaume. Je suis sûr qu'il y est encore. Pars demain matin, tu auras le temps d'arriver au temple avant que l'ennemi  n'assiège la ville !" }
+    ],
+    "text": "Tomatola montre la tomate magique à son père",
+    "choices": [
+      { "text": "Prendre la tomate et partir", "next": "c1_forest_entry" }
+    ]
+  },
+
+
+
+
+
+  "c1_forest_entry": {
+    "background": "forestentry",
+    "characters": ["tomatolaback"],
+    "tomato": false,
+    "text": "Tomatola est prête a partir à l'aventure mais elle hésite entre deux chemins",
+    "choices": [
+      { "text": "Traverser la forêt", "next": "c1_enter_forest" },
+      { "text": "Passer par le chemin", "next": "c1_path" }
+    ]
+  },
+
+
+  "c1_path": {
+    "background": "path",
+    "characters": ["tomatolaback", "traveler"],
+    "tomato": false,
+    "text": "Tomatola rencontre un vieux voyageur. Il lui donne un sac pour protéger la tomate",
+    "choices": [
+      { "text": "Aller dans la forêt", "next": "c1_forest_entry" }
+    ]
+  },
+
+
+
+
+
+
+
+  "c1_enter_forest": {
+    "background": "clearing",
+    "characters": ["tomatolaback","wolf"],
+    "tomato": false,
+    "text": "En face d'elle une louve majestueuse la regarde",
+    "choices": [
+      { "text": "Siffler pour appeler la louve", "next": "c1_meet_wolf" }
+    ]
+  },
+
+
+
+
+
+  "c1_meet_wolf": {
+    "background": "clearing",
+    "characters": ["tomatolameetswolf"],
+    "tomato": false,
+    "reward": { "credits": 50 },
+    "text": "La louve s'approche lentement, elle est en confiance. Tomatola lui fait sentir sa main",
+    "choices": [
+      { "text": "Partir avec la louve", "next": "c1_build_trap" }
+    ]
+  },
+
+
+  "c1_build_trap": {
+    "background": "clearing",
+    "characters": ["buildtrap"],
+    "tomato": false,
+    "text": "Tomatola a faim, elle construit un piège de chasse pour capturer le repas du soir.",
+    "choices": [
+      { "text": "Partir avec la louve", "next": "c1_house_approach" }
+    ]
+  },
+
+
+
+
+
+
+
+
+
+
+  "c1_house_approach": {
+    "background": "house",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Au cœur du bois, une maison oubliée veille. La porte entrouverte respire un souffle tiède.",
+    "choices": [
+      { "text": "Visiter la maison", "next": "c1_house_inside" },
+      { "text": "Retourner dans le bois", "next": "c1_back_to_forest" }
+    ]
+  },
+
+  "c1_house_inside": {
+    "background": "houseinside",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "À l’intérieur, Tomatola et la louve découvrent une gravure : des ennemis avides s’en prennent à la tomate. Elle comprend qu’elle devra la protéger coûte que coûte.",
+    "choices": [
+      { "text": "Accepter ce destin", "next": "c1_end_demo" }
+    ]
+  },
+
+  "c1_back_to_forest": {
+    "background": "forest",
+    "characters": ["tomatola", "wolf"],
+    "tomato": false,
+    "text": "La forêt referme son silence. La maison attendra : l’ombre connaît la patience.",
+    "choices": [
+      { "text": "Revenir vers la maison", "next": "c1_house_approach" },
+      { "text": "Rejouer depuis le champ", "next": "c1_start" }
+    ]
+  },
+
+  "c1_end_demo": {
+    "background": "houseinside",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Une chaleur douce parcourt la pièce. Un secret s’éveille — l’histoire de Tomatola ne fait que commencer.",
+    "choices": [
+      { "text": "Rejouer le Chapitre 1", "next": "c1_start" },
+      { "text": "Passer au Chapitre 2", "next": "c2_start" }
+    ]
+  },
+
+  "c2_start": {
+    "background": "path",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Tomatola et la louve quittent la forêt et prennent le chemin.",
+    "choices": [
+      { "text": "Approcher le vieux voyageur", "next": "c2_traveler" }
+    ]
+  },
+
+  "c2_traveler": {
+    "background": "path",
+    "characters": ["tomatolaandwolf", "traveler"],
+    "tomato": false,
+    "text": "Le voyageur explique : la tomate peut guérir toutes les blessures et maladies. Il donne un sac pour la cacher.",
+    "choices": [
+      { "text": "Ranger la tomate et choisir une route", "next": "c2_choose" }
+    ]
+  },
+
+  "c2_choose": {
+    "background": "path",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Deux routes s’offrent à elles : la ville ou la montagne.",
+    "choices": [
+      { "text": "Aller à la ville", "next": "c2_city" },
+      { "text": "Gravir la montagne", "next": "c2_mountain" }
+    ]
+  },
+
+  "c2_city": {
+    "background": "city",
+    "characters": ["tomatola"],
+    "tomato": false,
+    "text": "Tomatola entre seule en ville. La louve reviendra si besoin.",
+    "choices": [
+      { "text": "Fin du Chapitre 2 (Ville)", "next": "c2_end_city" }
+    ]
+  },
+
+  "c2_mountain": {
+    "background": "mountain",
+    "characters": ["tomatola", "wolf"],
+    "tomato": false,
+    "text": "Des esprits menacent la tomate ; la louve hurle et les fait fuir.",
+    "choices": [
+      { "text": "Fin du Chapitre 2 (Montagne)", "next": "c2_end_mountain" }
+    ]
+  },
+
+  "c2_end_city": {
+    "background": "market",
+    "characters": ["tomatola"],
+    "tomato": false,
+    "text": "Au marché, elle achète à manger.",
+    "choices": [
+      { "text": "Chapitre 3", "next": "c3_start" }
+    ]
+  },
+
+  "c2_end_mountain": {
+    "background": "temple",
+    "characters": ["tomatola", "wolf"],
+    "tomato": true,
+    "text": "Au sommet, un temple perché apparaît.",
+    "choices": [
+      { "text": "Chapitre 3", "next": "c3_start" }
+    ]
+  },
+
+  "c3_start": {
+    "background": "forest",
+    "characters": ["tomatola"],
+    "tomato": false,
+    "text": "[Début du Chapitre 3 — à écrire]",
+    "choices": [
+      { "text": "Continuer", "next": "c1_start" }
+    ]
+  }
+}

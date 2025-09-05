@@ -1,0 +1,85 @@
+{
+  "start": {
+    "background": "field",
+    "characters": ["tomatola"],
+    "tomato": true,
+    "text": "Crépuscule. Dans un champ, Tomatola découvre une tomate différente. Elle palpite comme un cœur et éclaire ses mains.",
+    "choices": [
+      { "text": "La cueillir avec douceur", "energy": -1, "next": "take_tomato" },
+      { "text": "L'observer encore", "energy": -1, "next": "observe_field" }
+    ]
+  },
+
+  "observe_field": {
+    "background": "field",
+    "characters": ["tomatola"],
+    "tomato": true,
+    "text": "La lueur pulse, des étincelles dorées flottent. Un pressentiment naît : il faut quitter le champ.",
+    "choices": [
+      { "text": "Prendre la tomate et partir", "energy": -1, "next": "take_tomato" }
+    ]
+  },
+
+  "take_tomato": {
+    "background": "forest",
+    "characters": ["tomatola"],
+    "tomato": false,
+    "text": "Tomatola serre la tomate contre elle et s’enfonce dans la forêt. Les feuilles bruissent, la lumière suit ses pas.",
+    "choices": [
+      { "text": "Appeler doucement", "energy": -1, "next": "meet_wolf" },
+      { "text": "Avancer en silence", "energy": -1, "next": "meet_wolf" }
+    ]
+  },
+
+  "meet_wolf": {
+    "background": "forest",
+    "characters": ["tomatola", "wolf"],
+    "tomato": false,
+    "text": "Une louve blanche apparaît entre les troncs, paisible. Son regard semble comprendre le secret de la tomate.",
+    "choices": [
+      { "text": "Suivre un sentier sombre", "energy": -1, "next": "house_approach" }
+    ]
+  },
+
+  "house_approach": {
+    "background": "house",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Au cœur du bois, une maison oubliée veille. La porte entrouverte respire un souffle tiède.",
+    "choices": [
+      { "text": "Visiter la maison", "energy": 0, "next": "house_inside" },
+      { "text": "Retourner dans le bois", "energy": 0, "next": "back_to_forest" }
+    ]
+  },
+
+ "house_inside": {
+    "background": "houseinside",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "À l’intérieur, Tomatola et la louve découvrent une gravure : des ennemis avides s’en prennent à la tomate. Elle comprend qu’elle devra la protéger coûte que coûte.",
+    "choices": [
+      { "text": "Accepter ce destin", "energy": 0, "next": "end_demo" }
+    ]
+  },
+
+  "back_to_forest": {
+    "background": "forest",
+    "characters": ["tomatola", "wolf"],
+    "tomato": false,
+    "text": "La forêt referme son silence. La maison attendra : l’ombre connaît la patience.",
+    "choices": [
+      { "text": "Revenir vers la maison", "energy": 0, "next": "house_approach" },
+      { "text": "Rejouer depuis le champ", "energy": 0, "next": "start" }
+    ]
+  },
+
+  "end_demo": {
+    "background": "houseinside",
+    "characters": ["tomatolaandwolf"],
+    "tomato": false,
+    "text": "Une chaleur douce parcourt la pièce. Un secret s’éveille — l’histoire de Tomatola ne fait que commencer.",
+    "choices": [
+      { "text": "Rejouer", "energy": 0, "next": "start" }
+    ]
+  }
+}
