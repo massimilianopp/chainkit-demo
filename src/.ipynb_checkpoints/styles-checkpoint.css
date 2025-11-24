@@ -237,7 +237,7 @@ body { margin: 0; }
 
 .node-c1_enter_forest .char.wolf {
   position: absolute;      /* maintenant left/bottom fonctionnent */
-  left: 46%;
+  left: 50%;
   bottom: 20vh;
   max-height: none;        /* pour ne pas être limité par la règle globale */
   height: 20vh;            /* taille souhaitée */
@@ -260,48 +260,248 @@ body { margin: 0; }
 
 
 
+.node-c1_trap_deer .char.trappeddeer { max-height:52vh; }
+.node-c1_trap_deer .characters { justify-content:center; }
+
+
+.node-c1_fire .char.tomatolawolffire { max-height:52vh; }
+.node-c1_fire .characters { justify-content:center; }
+
+
+
+.node-c1_montain .char.tomatolacoatwolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c1_path .char.tomatolatraveler { max-height:52vh; }
+.node-c1_path .characters { justify-content:center; }
+
+.node-c2_montain_peak .char.tomatolacoatwolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
+.node-c2_bear .char.bear {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+.node-c2_fight_bear .char.fightbear {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
 
 
 
 
-.node-field .characters { justify-content:center; }
-.node-observe_field .characters { justify-content: center; }
-.node-field .char.tomatola,
-.node-observe_field .char.tomatola { max-height:52vh; margin-left: 0; }
-.node-field .tomato,
-.node-observe_field .tomato { left:25%; bottom:12vh; height:24vh; }
 
-/* take_tomato : Tomatola seule, pas de tomate (déjà dans le sac) */
-.node-take_tomato .characters { justify-content:center; }
-.node-take_tomato .char.tomatola { max-height:52vh; }
-.node-take_tomato .tomato { display:none; }
 
-/* meet_wolf : duo côte à côte (Tomatola + louve), pas de tomate visible */
-.node-meet_wolf .characters { justify-content:center; gap:48px; }
-.node-meet_wolf .char.tomatola { max-height:46vh; }
-.node-meet_wolf .char.wolf { max-height:38vh; }
-.node-meet_wolf .tomato { display:none; }
 
-/* house_approach : sprite combiné tomatolaandwolf centré */
-.node-house_approach .characters { justify-content:center; }
-.node-house_approach .char.tomatolaandwolf { max-height:58vh; }
-.node-house_approach .tomato { display:none; }
 
-/* house_inside : pareil, intérieur maison */
-.node-house_inside .characters { justify-content:center; }
-.node-house_inside .char.tomatolaandwolf { max-height:58vh; }
-.node-house_inside .tomato { display:none; }
+.node-c2_wounded_wolf .char.woundedwolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
 
-/* back_to_forest : duo séparé (retour forêt), pas de tomate */
-.node-back_to_forest .characters { justify-content:center; }
-.node-back_to_forest .char.tomatola { max-height:46vh; }
-.node-back_to_forest .char.wolf { max-height:38vh; }
-.node-back_to_forest .tomato { display:none; }
 
-/* end_demo : sprite combiné centré, pas de tomate */
-.node-end_demo .characters { justify-content:center; }
-.node-end_demo .char.tomatolaandwolf { max-height:58vh; }
-.node-end_demo .tomato { display:none; }
+.node-c2_carry_wolf .char.carrywolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+.node-c2_temple .char.carrywolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_temple_safe .char.tomatolacoatwolf {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
+
+
+
+
+.node-c2_temple_entry .char.teacher {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_temple_entry_2 .char.teacher {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 45vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
+
+
+
+
+
+
+.node-c2_temple_inside .char.wolftomatolateacher {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_temple_inside_2 .char.tomatolateacher {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -35vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 90vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
+
+.node-c2_bird .char.tomatolabird {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_bird_2 .char.tomatolabird {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_bird_success .char.curedbird {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_bird_fail .char.birddead {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -40vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 110vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_child .char.sickchild {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+.node-c2_grimoire .char.grimoire {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 60vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_second_try .char.tomatolabird {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_success .char.curedbird {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_child_2 .char.sickchild {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -5vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 70vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+.node-c2_goodbye .char.goodbye {
+  position: absolute;      /* maintenant left/bottom fonctionnent */
+  left: 50%;
+  bottom: -10vh;
+  max-height: none;        /* pour ne pas être limité par la règle globale */
+  height: 50vh;            /* taille souhaitée */
+  transform: translateX(-50%); /* pour centrer sur left */
+}
+
+
+
 
 /* (Option) fond : évite les déformations et colle au rendu original CH1 */
 .background img { object-fit: cover; object-position: center; }
@@ -322,7 +522,7 @@ body { margin: 0; }
   border-radius: 16px;
   padding: 12px 14px;
   box-shadow: 0 10px 24px rgba(0,0,0,.18);
-  font-size: clamp(14px, 1.8vw, 18px);
+  font-size: clamp(12px, 1.4vw, 15px);
   line-height: 1.4;
   position: relative;
 }
@@ -409,4 +609,189 @@ body { margin: 0; }
   80% { opacity: 1; transform: translate(-50%, -20px); }
   100% { opacity: 0; transform: translate(-50%, -40px); }
 }
+
+
+
+/* Modale générique */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* <-- au-dessus de tout */
+}
+
+.modal-body {
+  background: #121216;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 10px;
+  max-width: 420px;
+  width: 92vw;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+
+.hp-bar {
+  width: 120px;
+  height: 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 4px 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.hp-fill {
+  height: 100%;
+  background: linear-gradient(to right, #e53935, #e35d5b);
+  transition: width 0.3s ease;
+}
+
+
+
+/* INVENTAIRE (HUD) */
+.inventory {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.inventory .inv-empty { opacity: 0.7; }
+
+.inv-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.25);
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+
+.inv-item img {
+  width: 18px; height: 18px; object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,.3));
+}
+
+.inv-emoji { font-size: 16px; line-height: 1; }
+
+.inv-label { opacity: 0.95; }
+
+
+/* Boutons de sélection de chapitres plus gros */
+.chapters button.btn {
+  font-size: 18px;         /* texte plus grand */
+  padding: 14px 20px;      /* zones cliquables plus larges */
+  border-radius: 12px;     /* coins arrondis confortables */
+}
+
+.chapters li {
+  margin-bottom: 10px;     /* espacement entre les lignes */
+}
+
+
+
+/* Palpitation accentuée pour la découverte de la tomate */
+.tomato-found {
+  animation: tomatoPulse 1s ease-in-out infinite; /* plus rapide que la normale */
+  filter: drop-shadow(0 0 12px rgba(255,60,60,0.7));
+}
+
+
+
+.chapter-banner {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 20, 28, 0.92);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28);
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  z-index: 1000;
+  animation: chapterDrop 300ms ease-out, chapterFade 300ms ease-in 2.6s both;
+  cursor: pointer; /* clic pour fermer */
+}
+
+@keyframes chapterDrop {
+  from { transform: translate(-50%, -18px); opacity: 0; }
+  to   { transform: translate(-50%, 0);     opacity: 1; }
+}
+@keyframes chapterFade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+
+/* Écran verrouillé : wrapper centré et carte propre */
+.screen {
+  min-height: 100vh;
+  padding: 72px 16px 24px; /* laisse la place pour la HUD en haut */
+  box-sizing: border-box;
+}
+
+.locked-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.locked-card {
+  background: #121218;
+  border: 1px solid #2a2a36;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+  padding: 14px;
+}
+
+/* titre/texte */
+.locked-title {
+  margin: 10px 0 6px;
+}
+.locked-text {
+  opacity: .9;
+  margin: 0 0 12px;
+}
+
+/* (déjà ajouté plus haut, mais on complète si besoin) */
+.locked-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 28vw, 320px);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #2a2a36;
+  margin-bottom: 12px;
+}
+.locked-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(.95);
+}
+.locked-veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 10px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.05));
+  color: #fff;
+  font-weight: 600;
+}
+
+
+
 

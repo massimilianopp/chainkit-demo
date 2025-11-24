@@ -1,0 +1,33 @@
+
+/* Overlay "tourner l'appareil" (affiché quand en portrait sur mobile) */
+.rotate-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0b0b10;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+}
+.rotate-card {
+  text-align: center;
+  padding: 24px 28px;
+  border: 1px solid #2a2a2e;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  max-width: 460px;
+}
+.rotate-emoji { font-size: 64px; margin-bottom: 12px; line-height: 1; }
+.rotate-title { font-size: 20px; margin: 4px 0 6px; }
+.rotate-sub { opacity: .9; margin: 0 0 14px; }
+.rotate-btn { appearance: none; border: 1px solid #444; border-radius: 12px; padding: 10px 14px; background: #16161a; color: #fff; cursor: pointer; }
+
+/* (Optionnel) Cadre 16:9 si tu veux wrapper ton jeu
+.game-safe { width: 100vw; height: 100vh; display:flex; align-items:center; justify-content:center; background:#000; overflow:hidden; }
+.game-stage { width: min(100vw, 177.78vh); height: min(56.25vw, 100vh); position: relative; background: #0a0a0f; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.5); overflow:hidden; }
+*/
+
+/* iOS: éviter le scroll de fond quand overlay */
+html, body { overscroll-behavior: none; touch-action: manipulation; }
