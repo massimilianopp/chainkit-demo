@@ -1,86 +1,115 @@
 # Tomatocoin Game + ChainKit SDK
 
-Tomatocoin Game est un RPG Web3 construit sur Solana. Le jeu démontre l’utilisation de ChainKit, un SDK permettant d’intégrer facilement Solana dans n’importe quel jeu : connexion wallet, achats in-game, paiements Solana Pay, récompenses et sauvegarde du progrès.
+Tomatocoin Game is a Web3 RPG built on Solana.  
+It demonstrates the use of ChainKit, a lightweight SDK that enables any game to integrate Solana features with no blockchain knowledge.
 
-Ce repository contient le jeu complet, le SDK et le backend.
+ChainKit provides:
+- Wallet connection (Phantom, Solflare)
+- Pay-to-unlock levels with SPL tokens
+- Solana Pay transactions
+- Token-based rewards
+- Cloud-saved progress using SIWS + JWT
 
-## Structure du projet
+This repository contains the full game, the SDK, and the backend.
+
+## Project Structure
 
 src/
-  chainkit/            (SDK ChainKit)
-  App.jsx              (logique du jeu + intégration)
-  game/                (histoire, scènes, nodes)
-  ui/                  (interface)
+  chainkit/              (ChainKit SDK)
+  App.jsx                (game logic + SDK integration)
+  game/                  (story, nodes, events)
+  ui/                    (UI components)
   components/
   hooks/
-api/                   (backend : SIWS, paiements, rewards, checkpoints)
-lib/                   (utils Solana, DB)
-public/                (assets)
-vite.config.mjs
+api/                     (backend: SIWS, payments, rewards, checkpoints)
+lib/                     (Solana utilities, DB, rate limiting)
+public/                  (assets)
+vite.config.mjs          
 vercel.json
 package.json
 
 ## ChainKit SDK
 
-Fonctions principales disponibles dans src/chainkit/ :
+Located in: src/chainkit/
 
+Available functions:
 - initChainKit(options)
 - ensureToken()
-- readSplBalanceParsed(...)
+- readSplBalanceParsed(connection, publicKey, mint)
 - purchaseChapter(id, options)
 - claimReward(eventKey, amountUi)
 - apiSaveCheckpoint(jwt, nodeId)
 - apiGetMe(jwt)
 
-Le SDK permet d’intégrer Solana dans un jeu sans écrire de code blockchain.
+ChainKit enables game developers to integrate Solana without writing any blockchain code.
 
-## Fonctionnalités du jeu
+## Tomatocoin Game (Example Project)
 
-- Déblocage de chapitres payants
-- Paiements via Solana Pay
-- Récompenses en tokens SPL
-- Connexion automatique du wallet
-- Sauvegarde du progrès côté serveur
-- Inventaire, XP, scènes, dialogues et audio
+This repository includes a fully playable Web3 RPG that shows how ChainKit works in a real game environment.
 
-Tomatocoin Game sert d’exemple officiel pour l’intégration de ChainKit.
+Features:
+- Paid chapter unlocking
+- Solana Pay integration
+- Token rewards
+- Wallet login
+- Server-side checkpoint saving
+- Inventory system
+- XP and healing system
+- Scenes, dialogues, audio, and story engine
 
-## Développement
+This game acts as the reference implementation for developers wanting to use ChainKit.
 
-Installation :
+## Development
+
+Install dependencies:
 npm install
 
-Lancement :
+Run locally:
 npm run dev
 
-Build :
+Build for production:
 npm run build
 
-## Backend (répertoire api/)
+## Backend (directory: api/)
 
-Endpoints disponibles :
+Available API endpoints:
+
+Authentication:
 - /api/auth/nonce
 - /api/auth/siws
+
+Player state:
 - /api/player/me
 - /api/player/unlocked
+
+Progress:
 - /api/progress/checkpoint
+
+Payments:
 - /api/payments/intent
 - /api/payments/tx
 - /api/payments/record
+
+Rewards:
 - /api/rewards/claim
 
-## Pourquoi ce repo est utile
+The backend is compatible with Vercel Functions.
 
-- Jeu Web3 complet
-- SDK réutilisable
-- Backend prêt à l’emploi
-- Architecture claire
-- Exemple concret et pédagogique pour le Web3 gaming
+## Licensing
 
-## Licence
+This project uses a dual-licensing model.
 
-MIT (open source)
-Possibilité de licence commerciale pour un usage professionnel.
+1. Non-commercial license (default)  
+   Allowed: personal, educational, research, non-commercial use.  
+   File: LICENSE  
+   Commercial use is not permitted under this license.
+
+2. Commercial license (paid)  
+   Required for any company or professional use, including paid games or commercial projects.  
+   File: LICENSE-COMMERCIAL.md  
+   A license can be purchased directly from the maintainer.
+
+See NOTICE.md for full licensing terms.
 
 ## Maintainer
 
