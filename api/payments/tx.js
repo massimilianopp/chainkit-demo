@@ -22,7 +22,15 @@ import {
 
 import { requireAuth } from "../../lib/requireAuth.js";
 import { sql } from "../../lib/db.js";
-import { connection, TOMATO_MINT, TOMATO_DECIMALS } from "../../lib/solana.js";
+import {
+  connection,
+  TOMATO_MINT,
+  TOMATO_DECIMALS,
+  MERCHANT_WALLET,
+  CHAPTER_PRICE_RAW,
+} from "../../lib/solana.js";
+
+const UUID_RE = /^[0-9a-fA-F-]{36}$/;
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -42,6 +50,11 @@ export default async function handler(req, res) {
         .json({ ok: false, error: "Missing reference or account" });
     }
 
+    if (!UUID_RE.test(String(reference))) {
+      noCache(res);
+      return res.status(400).json({ ok: false, error: "Invalid reference format" });
+    }
+
     // JWT doit correspondre à `account`
     if (wallet !== account) {
       noCache(res);
@@ -51,11 +64,11 @@ export default async function handler(req, res) {
     }
 
     // On charge l'intent de paiement
-    const rows = await sql`
+    const rows = await sql/* sql */`
       SELECT id, wallet, chapter_id, amount_raw, mint, merchant, status
-      FROM purchases
-      WHERE id = ${reference}::uuid
-      LIMIT 1;
+        FROM purchases
+       WHERE id = ${reference}::uuid
+       LIMIT 1;
     `;
     const intent = rows?.[0];
 
@@ -66,6 +79,11 @@ export default async function handler(req, res) {
         .json({ ok: false, error: "Intent not found" });
     }
 
+    if (intent.wallet !== wallet) {
+      noCache(res);
+      return res.status(403).json({ ok: false, error: "Intent does not belong to this wallet" });
+    }
+
     if (intent.status !== "PENDING") {
       noCache(res);
       return res.status(400).json({
@@ -74,18 +92,32 @@ export default async function handler(req, res) {
       });
     }
 
-    // Adresses
-    const playerPk = new PublicKey(wallet);
-    const mintPk = new PublicKey(intent.mint || TOMATO_MINT);
-    const merchantPk = new PublicKey(intent.merchant);
+    // Petits garde-fous de cohérence
+    if (BigInt(intent.amount_raw) !== BigInt(CHAPTER_PRICE_RAW)) {
+      noCache(res);
+      return res.status(400).json({ ok: false, error: "Unexpected amount_raw in intent" });
+    }
 
-    const playerAta = await getAssociatedTokenAddress(mintPk, playerPk);
+    if (intent.mint !== TOMATO_MINT.toBase58()) {
+      noCache(res);
+      return res.status(400).json({ ok: false, error: "Unexpected mint in intent" });
+    }
+
+    if (intent.merchant !== MERCHANT_WALLET.toBase58()) {
+      noCache(res);
+      return res.status(400).json({ ok: false, error: "Unexpected merchant in intent" });
+    }
+
+    // Adresses
+    const playerPk   = new PublicKey(wallet);
+    const mintPk     = TOMATO_MINT;
+    const merchantPk = MERCHANT_WALLET;
+
+    const playerAta   = await getAssociatedTokenAddress(mintPk, playerPk);
     const merchantAta = await getAssociatedTokenAddress(mintPk, merchantPk);
 
-    // Montant en "raw" (u64)
     const amountRaw = BigInt(intent.amount_raw);
 
-    // Instruction SPL avec décimales connues
     const ix = createTransferCheckedInstruction(
       playerAta,
       mintPk,
@@ -95,10 +127,8 @@ export default async function handler(req, res) {
       TOMATO_DECIMALS
     );
 
-    // Blockhash récent
     const { blockhash } = await connection.getLatestBlockhash("finalized");
 
-    // Message v0 + transaction versionnée
     const msg = new TransactionMessage({
       payerKey: playerPk,
       recentBlockhash: blockhash,
@@ -106,8 +136,6 @@ export default async function handler(req, res) {
     }).compileToV0Message();
 
     const vtx = new VersionedTransaction(msg);
-
-    // Sérialisation base64
     const b64 = Buffer.from(vtx.serialize()).toString("base64");
 
     noCache(res);
