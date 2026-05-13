@@ -127,7 +127,7 @@ export default async function handler(req, res) {
       TOMATO_DECIMALS
     );
 
-    const { blockhash } = await connection.getLatestBlockhash("finalized");
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash("finalized");
 
     const msg = new TransactionMessage({
       payerKey: playerPk,
@@ -139,7 +139,12 @@ export default async function handler(req, res) {
     const b64 = Buffer.from(vtx.serialize()).toString("base64");
 
     noCache(res);
-    return res.status(200).json({ ok: true, transaction: b64 });
+    return res.status(200).json({ 
+      ok: true, 
+      transaction: b64,
+      blockhash,
+      lastValidBlockHeight
+    });
   } catch (e) {
     noCache(res);
     return res

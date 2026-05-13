@@ -54,6 +54,9 @@ async function purchaseChapter(chapterId, opts = {}) {
 
   const j = await r.json().catch(() => ({}));
   if (!j?.transaction) throw new Error(j?.error || "Transaction not found");
+  
+  // Store blockhash data for recording
+  const { blockhash, lastValidBlockHeight } = j;
 
   // Deserialize transaction
   const raw = Uint8Array.from(atob(j.transaction), (c) => c.charCodeAt(0));
@@ -114,8 +117,8 @@ async function purchaseChapter(chapterId, opts = {}) {
 
     let rec = null;
     try {
-      // 🔥 On envoie numericId au backend (important)
-      rec = await apiRecordPurchase(numericId, sig, intent.reference);
+      // 🔥 On envoie numericId au backend (important) + blockhash data
+      rec = await apiRecordPurchase(numericId, sig, intent.reference, blockhash, lastValidBlockHeight);
     } catch (e) {
       console.warn("[record] fetch error:", e);
     }

@@ -97,7 +97,7 @@ async function apiCreatePaymentIntent(chapterId) {
   return safeJson(res);
 }
 
-async function apiRecordPurchase(chapterId, sig, reference) {
+async function apiRecordPurchase(chapterId, sig, reference, blockhash, lastValidBlockHeight) {
   const token = await ensureToken();
   const res = await fetch("/api/payments/record", {
     method: "POST",
@@ -105,7 +105,7 @@ async function apiRecordPurchase(chapterId, sig, reference) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ chapterId, sig, reference }),
+    body: JSON.stringify({ chapterId, sig, reference, blockhash, lastValidBlockHeight }),
   });
   return safeJson(res);
 }

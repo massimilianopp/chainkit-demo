@@ -10,9 +10,11 @@ function noCache(res) {
 }
 
 import crypto from "node:crypto";
+import { PublicKey, VersionedTransaction } from "@solana/web3.js";
+import { getAssociatedTokenAddress } from "@solana/spl-token";
 import { requireAuth } from "../../lib/requireAuth.js";
 import { sql } from "../../lib/db.js";
-import { connection, TOMATO_MINT, MERCHANT_WALLET, CHAPTER_PRICE_RAW } from "../../lib/solana.js";
+import { connection, TOMATO_MINT, MERCHANT_WALLET, CHAPTER_PRICE_RAW, TOMATO_DECIMALS } from "../../lib/solana.js";
 
 const UUID_RE = /^[0-9a-fA-F-]{36}$/;
 
@@ -26,7 +28,7 @@ export default async function handler(req, res) {
     const userPk = requireAuth(req);
     const wallet = userPk.toBase58();
 
-    const { chapterId, sig, reference, debug } = req.body || {};
+    const { chapterId, sig, reference, debug, blockhash, lastValidBlockHeight } = req.body || {};
     const chapter = Number(chapterId);
 
     if (!Number.isInteger(chapter) || chapter <= 0) {
@@ -44,31 +46,107 @@ export default async function handler(req, res) {
       return res.status(400).json({ ok: false, error: "Invalid reference format" });
     }
 
-    // 1) Vérif "souple" : la signature existe et n'est pas en erreur
-    const st = await connection
-      .getSignatureStatuses([sig])
-      .then((r) => r?.value?.[0] || null);
+    // 1) Vérification on-chain complète
+    let txData;
+    try {
+      txData = await connection.getTransaction(sig, {
+        commitment: "confirmed",
+        maxSupportedTransactionVersion: 0
+      });
+    } catch (e) {
+      // Fallback sur getSignatureStatuses si getTransaction échoue
+      const st = await connection
+        .getSignatureStatuses([sig])
+        .then((r) => r?.value?.[0] || null);
 
-    if (!st) {
+      if (!st) {
+        noCache(res);
+        return res.status(200).json({
+          ok: true,
+          status: "PENDING",
+          reason: "sig-not-found",
+        });
+      }
+
+      if (st.err) {
+        noCache(res);
+        return res.status(200).json({
+          ok: false,
+          status: "ERROR",
+          error: "on-chain error",
+          ...(debug ? { signatureStatus: st } : {}),
+        });
+      }
+
+      // Si pas d'erreur mais pas de txData, c'est encore en pending
       noCache(res);
       return res.status(200).json({
         ok: true,
         status: "PENDING",
-        reason: "sig-not-found",
+        reason: "tx-data-unavailable",
       });
     }
 
-    if (st.err) {
+    if (!txData || txData.meta?.err) {
       noCache(res);
       return res.status(200).json({
         ok: false,
         status: "ERROR",
-        error: "on-chain error",
-        ...(debug ? { signatureStatus: st } : {}),
+        error: "transaction failed or not found",
+        ...(debug ? { transactionData: txData } : {}),
       });
     }
 
-    const conf = st.confirmationStatus || "processed";
+    // 2) Validation du contenu de la transaction
+    try {
+      const vtx = VersionedTransaction.deserialize(Buffer.from(txData.transaction[0], 'base64'));
+      const message = vtx.message;
+      
+      // Vérifier qu'il y a au moins une instruction
+      if (message.compiledInstructions.length === 0) {
+        noCache(res);
+        return res.status(200).json({
+          ok: false,
+          status: "ERROR",
+          error: "no instructions in transaction",
+        });
+      }
+
+      // Vérifier les comptes impliqués dans la première instruction
+      const ix = message.compiledInstructions[0];
+      const accounts = ix.accountKeyIndexes.map(i => 
+        i < message.staticAccountKeys.length 
+          ? message.staticAccountKeys[i]
+          : message.addressTableLookups?.[i - message.staticAccountKeys.length]?.writableIndexes?.[0] || null
+      ).filter(Boolean);
+
+      const playerPk = new PublicKey(wallet);
+      const playerAta = await getAssociatedTokenAddress(TOMATO_MINT, playerPk);
+      const merchantAta = await getAssociatedTokenAddress(TOMATO_MINT, MERCHANT_WALLET);
+
+      // Vérifier que les bonnes adresses sont impliquées
+      const hasPlayerAta = accounts.some(acc => acc.equals(playerAta));
+      const hasMerchantAta = accounts.some(acc => acc.equals(merchantAta));
+      const hasMint = accounts.some(acc => acc.equals(TOMATO_MINT));
+
+      if (!hasPlayerAta || !hasMerchantAta || !hasMint) {
+        noCache(res);
+        return res.status(200).json({
+          ok: false,
+          status: "ERROR",
+          error: "transaction doesn't involve expected token accounts",
+          ...(debug ? { expectedAccounts: { playerAta: playerAta.toBase58(), merchantAta: merchantAta.toBase58(), mint: TOMATO_MINT.toBase58() } } : {})
+        });
+      }
+
+    } catch (validationError) {
+      // Si la validation échoue, on continue avec l'ancienne méthode
+      if (debug) {
+        console.warn("Transaction validation failed:", validationError);
+      }
+    }
+
+    const conf = txData?.meta?.confirmationStatus || "confirmed";
 
     // 2) Idempotent : confirme d'abord une ligne PENDING existante avec référence
     let via = null;

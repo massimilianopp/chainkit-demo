@@ -29,12 +29,21 @@ export default async function handler(req, res) {
     const chapter = ensureInt(chapterId, "chapterId", res);
     if (chapter == null) return;
 
+    // Nettoie les intents expirés (> 10 min)
+    await sql/* sql */`
+      UPDATE purchases
+         SET status = 'EXPIRED'
+       WHERE status = 'PENDING'
+         AND created_at < now() - interval '10 minutes'
+    `;
+
     // 1) réutilise un PENDING existant (idempotent)
     const up = await sql/* sql */`
       UPDATE purchases
          SET amount_raw = ${CHAPTER_PRICE_RAW},
              mint       = ${TOMATO_MINT.toBase58()},
-             merchant   = ${MERCHANT_WALLET.toBase58()}
+             merchant   = ${MERCHANT_WALLET.toBase58()},
+             updated_at = now()
        WHERE wallet = ${wallet}
          AND chapter_id = ${chapter}
          AND status = 'PENDING'
@@ -46,7 +55,7 @@ export default async function handler(req, res) {
     if (!reference) {
       const proposed = crypto.randomUUID();
       const ins = await sql/* sql */`
-        INSERT INTO purchases (id, wallet, chapter_id, amount_raw, mint, merchant, status)
+        INSERT INTO purchases (id, wallet, chapter_id, amount_raw, mint, merchant, status, created_at, updated_at)
         VALUES (
           ${proposed}::uuid,
           ${wallet},
@@ -54,7 +63,9 @@ export default async function handler(req, res) {
           ${CHAPTER_PRICE_RAW},
           ${TOMATO_MINT.toBase58()},
           ${MERCHANT_WALLET.toBase58()},
-          'PENDING'
+          'PENDING',
+          now(),
+          now()
         )
       RETURNING id
       `;
